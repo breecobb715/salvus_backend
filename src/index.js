@@ -20,6 +20,9 @@ app.get('/students', (req, res) => {
     INNER JOIN school
     ON student.school_id = school.school_id;
   `;
+  /*Student.findAll({}).then(function(results){
+      res.json(results);
+    })*/
   conn.query(sql, function(err, rows, fields){
     if (err) return res.send(err);
     return res.send(rows);
@@ -33,6 +36,13 @@ app.get('/students/:studentId', (req, res) => {
     ON student.school_id = school.school_id
     WHERE student.student_id = ${req.params.studentId};
   `;
+  /*Student.findAll({
+        where: {
+          id: req.params.student_id
+        }
+      }).then(function(results){
+        res.json(results);
+      });*/
   conn.query(sql, function(err, rows, fields){
     if (err) return res.send(err);
     return res.send(rows);
@@ -54,3 +64,8 @@ app.delete('/students', (req, res) => {
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`),
 );
+app.get("/api/all", function(req, res) {
+  Model.findAll({}).then(function(results){
+    res.json(results);
+  })
+});
