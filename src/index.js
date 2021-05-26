@@ -12,9 +12,10 @@ app.get('/students', (req, res) => {
   })
 });
 app.get('/students/:studentId', (req, res) => {
+  console.log(req.params)
   Student.findAll({
       where: {
-          id: req.params.student_id
+          student_id: req.params.studentId
         }
       }).then(function(results){
         res.json(results);
