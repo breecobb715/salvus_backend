@@ -7,13 +7,8 @@ var Sequelize = require("sequelize");
 var sequelize = require("../config/connection.js");
 
 var Student = sequelize.define('student', {
-    id: {
-        type:Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-    },
     student_id: {
-        type: Sequelize.INT
+        type: Sequelize.INTEGER
     },
     first_name: {
         type: Sequelize.STRING
@@ -21,20 +16,29 @@ var Student = sequelize.define('student', {
     last_name: {
         type: Sequelize.STRING
     },
-    school_id: {
-        type: Sequelize.INTEGER
-    },
     status: {
         type: Sequelize.STRING
     },
     location: {
         type: Sequelize.STRING
-    }
+    },
+    parent_first_name: {
+        type: Sequelize.STRING
+    },
+    parent_last_name: {
+        type: Sequelize.STRING
+    },
+    parent_contact_method: {
+        type: Sequelize.STRING
+    },
+    parent_contact_info: {
+        type: Sequelize.STRING
+    },
 }, {
     timestamps: false
 });
 
 // Sync model with DB
-Book.sync();
+Student.sync();
 // Export the book model for other files to use
-module.exports = Book;
+module.exports = Student;
