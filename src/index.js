@@ -22,16 +22,34 @@ app.get('/students/:studentId', (req, res) => {
   });
 });
 
-app.post('/students', (req, res) => {
-  return res.send('Received a POST HTTP method');
+app.post('/newstudent', (req, res) => {
+  console.log("New Student Object: " + req.params)
+  const createdStudent =  Student.create({
+    student_id: req.params.student_id,
+    first_name: req.params.first_name,
+    last_name: req.params.last_name,
+    parent_first_name: req.params.parent_first_name,
+    parent_last_name: req.params.parent_last_name,
+    parent_contact_method: req.params.parent_contact_method,
+    parent_contact_info: req.params.parent_contact_info,
+    status: "SAFE",
+    location: null
+  });
+  console.log(createdStudent);
 });
- 
-app.put('/students', (req, res) => {
-  return res.send('Received a PUT HTTP method');
-});
- 
-app.delete('/students', (req, res) => {
-  return res.send('Received a DELETE HTTP method');
+app.post('/updatestudent', (req, res) => {
+  const createdStudent =  Student.create({
+    student_id: req.params.student_id,
+    first_name: req.params.first_name,
+    last_name: req.params.last_name,
+    parent_first_name: req.params.parent_first_name,
+    parent_last_name: req.params.parent_last_name,
+    parent_contact_method: req.params.parent_contact_method,
+    parent_contact_info: req.params.parent_contact_info,
+    status: "SAFE",
+    location: null
+  });
+  console.log(createdStudent);
 });
  
 app.listen(process.env.PORT, () =>
