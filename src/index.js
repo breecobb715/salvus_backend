@@ -4,6 +4,7 @@ import express from 'express';
  
 const app = express();
 app.use(cors());
+app.use(express.json());
 const { Model } = require("sequelize");
 var Student = require("../models/student.js");
 app.get('/students', (req, res) => {
@@ -23,33 +24,32 @@ app.get('/students/:studentId', (req, res) => {
 });
 
 app.post('/newstudent', (req, res) => {
-  console.log("New Student Object: " + req.params)
+  console.log("New Student Object: " + req.body)
+  const madeStudent = req.body;
   const createdStudent =  Student.create({
-    student_id: req.params.student_id,
-    first_name: req.params.first_name,
-    last_name: req.params.last_name,
-    parent_first_name: req.params.parent_first_name,
-    parent_last_name: req.params.parent_last_name,
-    parent_contact_method: req.params.parent_contact_method,
-    parent_contact_info: req.params.parent_contact_info,
+    student_id: madeStudent.student_id,
+    first_name: madeStudent.first_name,
+    last_name: madeStudent.last_name,
+    parent_first_name: madeStudent.parent_first_name,
+    parent_last_name: madeStudent.parent_last_name,
+    parent_contact_method: madeStudent.parent_contact_method,
+    parent_contact_info: madeStudent.parent_contact_info,
     status: "SAFE",
     location: null
   });
-  console.log(createdStudent);
+  res.send("Student added")
 });
-app.post('/updatestudent', (req, res) => {
-  const createdStudent =  Student.create({
-    student_id: req.params.student_id,
-    first_name: req.params.first_name,
-    last_name: req.params.last_name,
-    parent_first_name: req.params.parent_first_name,
-    parent_last_name: req.params.parent_last_name,
-    parent_contact_method: req.params.parent_contact_method,
-    parent_contact_info: req.params.parent_contact_info,
-    status: "SAFE",
-    location: null
+app.post('/updatestudent/:studentId', async (req, res) => {
+  const updatedInfo = req.body;
+  const studentToUpdate = await Student.findOne({
+    where: {
+      student_id: req.params.studentId
+    }
   });
-  console.log(createdStudent);
+  studentToUpdate.status = updatedInfo.status;
+  studentToUpdate.location = updatedInfo.location;
+  studentToUpdate.save();
+  res.send("Student updated")
 });
  
 app.listen(process.env.PORT, () =>
